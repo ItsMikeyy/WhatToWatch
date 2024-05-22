@@ -30,7 +30,7 @@ function App() {
     const selectedValues = Object.keys(checkboxes).filter(key => checkboxes[key]);
 
     try {
-      const response = await fetch("/", {
+      const response = await fetch("http://localhost:5000/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
