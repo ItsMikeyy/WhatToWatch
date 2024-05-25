@@ -15,6 +15,7 @@ class Scrape:
 
         soup = bs4.BeautifulSoup(prod_response.text, features="lxml")
         titles = soup.findAll(class_="ipc-title__text")
+        # img_links = soup.findAll(class_="ipc-image")["src"]
         random_title = random.choice(titles).get_text()
         random_title = random_title.split(" ")[1:]
         random_title = " ".join(random_title) 
