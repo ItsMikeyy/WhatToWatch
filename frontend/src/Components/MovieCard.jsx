@@ -1,13 +1,16 @@
+import "./MovieCard.css"
+
 const MovieCard = (props) => {
 
 
 
 
     return (
-        <>
-            <h1>Title {props.name}</h1>
-            <h2>Description</h2>
-        </>
+        <div className="container movie-card">
+            <h1 className="title">{props.name}</h1>
+            <img src={props.img} />
+            <h2 className="description">Description</h2>
+        </div>
     )
 }
 

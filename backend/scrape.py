@@ -14,12 +14,33 @@ class Scrape:
         prod_response = r.get(url, headers=headers)
 
         soup = bs4.BeautifulSoup(prod_response.text, features="lxml")
-        titles = soup.findAll(class_="ipc-title__text")
-        # img_links = soup.findAll(class_="ipc-image")["src"]
-        random_title = random.choice(titles).get_text()
-        random_title = random_title.split(" ")[1:]
-        random_title = " ".join(random_title) 
-        return random_title
+        data = self.get_data(soup)
+        return data        
+    
+    def get_data(self, soup):
+        divs = soup.findAll(class_="ipc-metadata-list-summary-item")
+        divs.pop()            #Extra element
+        selected_div = random.choice(divs)
+
+        title = self.get_title(selected_div)
+        img = self.get_img(selected_div)
+        return {"title": title, "img": img}
+
+
+        
+
+
+    def get_title(self, element):
+        title = element.find(class_="ipc-title__text").get_text()
+        title = title.split(" ")
+        title = " ".join(title[1::]) 
+        return title
+
+
+
+    def get_img(self, element):
+        img = element.find(class_="ipc-image")
+        return img["src"]
     
 
 

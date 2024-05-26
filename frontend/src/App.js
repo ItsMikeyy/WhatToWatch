@@ -4,7 +4,7 @@ import Header from './Components/Header';
 import "./App.css"
 function App() {
 
-  const [title, setTitle] = useState("")
+  const [requestData, setRequestData] = useState({})
   const [genre, setGenre] = useState({
     d1: "",
     d2: "",
@@ -33,7 +33,7 @@ function App() {
 
       if (response.ok) {
         const data = await response.json()
-        setTitle(data.movie)
+        setRequestData(data.data)
         console.log(data)
       } else {
         console.log("Error")
@@ -63,7 +63,7 @@ function App() {
             <option>Movie or TV Show</option>
           </select>
         </div>
-
+        <br />
         <div className="container">
           <h1 className="primary_text">With genres consisting of:</h1>
           <select name="d1" onChange={handleChange} value={genre.d1}>
@@ -93,11 +93,12 @@ function App() {
             ))}
           </select>
         </div>
+        <br />
         <div className="container">
           <button type="submit">GO</button>
         </div>
-
-        {title && <MovieCard name={title}/>}
+        <br />
+        {requestData && <MovieCard name={requestData.title} img={requestData.img} />}
       </form>
     </>
   );

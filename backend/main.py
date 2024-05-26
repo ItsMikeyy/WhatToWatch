@@ -17,8 +17,8 @@ def submit():
     data = request.get_json()
     genres = data.get("options", [])
     print(genres)
-    movie = s.get_movies(genres)
-    return jsonify({'message': 'Success', 'movie': movie}), 200
+    data = s.get_movies(genres)
+    return jsonify({'message': 'Success', 'data': data}), 200
 
 if __name__ == "__main__":
     app.run(debug=True)

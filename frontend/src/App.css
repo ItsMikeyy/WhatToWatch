@@ -1,5 +1,14 @@
+form {
+    margin: auto;
+}
+.root {
+    display: flex;
+  justify-content: center;
+}
 .container {
+    margin: auto;
     text-align: center;
+    display: inline-block;
     margin: 3rem;
 }
 .primary_text {
