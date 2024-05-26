@@ -5,6 +5,7 @@ import "./App.css"
 function App() {
 
   const [requestData, setRequestData] = useState({})
+  const [titleType, setTitleType] = useState("feature")
   const [genre, setGenre] = useState({
     d1: "",
     d2: "",
@@ -28,7 +29,7 @@ function App() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({options: selectedValues})
+        body: JSON.stringify({options: selectedValues, type: titleType})
       });
 
       if (response.ok) {
@@ -51,55 +52,61 @@ function App() {
     return genres.filter((g) => !selected.includes(g));
   };
 
+  const handleTitleType = (e) => {
+    setTitleType(e.target.value);
+  }
+
   return (
     <>
       <Header />
-      <form onSubmit={handleSubmit}>
-        <div className="container">
-          <h1 className="primary_text inline">I want to watch a</h1>
-          <select className="primary_select inline">
-            <option>Movie</option>
-            <option>TV Show</option>
-            <option>Movie or TV Show</option>
-          </select>
-        </div>
-        <br />
-        <div className="container">
-          <h1 className="primary_text">With genres consisting of:</h1>
-          <select name="d1" onChange={handleChange} value={genre.d1}>
+      <div className="container">
+        <form onSubmit={handleSubmit}>
+          <div className="container">
+            <h1 className="primary_text">I want to watch a:</h1>
+            <select onChange={handleTitleType} className="primary_select">
+              <option value="feature">Movie</option>
+              <option value="tv_series">TV Show</option>
+              <option value="feature,tv_series">Movie or TV Show</option>
+            </select>
+          </div>
+          <br />
+          <div className="container">
+            <h1 className="primary_text">With genres consisting of:</h1>
+            <select name="d1" onChange={handleChange} value={genre.d1}>
+              <option value="">Select an option</option>
+              {getFilteredOptions('d1').map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+            <h1 className="primary_text">And</h1>
+            <select name="d2" onChange={handleChange} value={genre.d2}>
             <option value="">Select an option</option>
-            {getFilteredOptions('d1').map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-          <h1 className="primary_text">And</h1>
-          <select name="d2" onChange={handleChange} value={genre.d2}>
-          <option value="">Select an option</option>
-            {getFilteredOptions('d2').map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-          <h1 className="primary_text">And</h1>
-          <select name="d3" onChange={handleChange} value={genre.d3}>
-          <option value="">Select an option</option>
-            {getFilteredOptions('d3').map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </div>
-        <br />
-        <div className="container">
-          <button type="submit">GO</button>
-        </div>
-        <br />
-        {requestData && <MovieCard name={requestData.title} img={requestData.img} />}
-      </form>
+              {getFilteredOptions('d2').map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+            <h1 className="primary_text">And</h1>
+            <select name="d3" onChange={handleChange} value={genre.d3}>
+            <option value="">Select an option</option>
+              {getFilteredOptions('d3').map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+          <br />
+          <div className="container">
+            <button type="submit">GO</button>
+          </div>
+          <br />
+          {Object.keys(requestData).length != 0 && <MovieCard name={requestData.title} img={requestData.img} description={requestData.description} link={requestData.link}/>}
+        </form>
+      </div>
     </>
   );
 }

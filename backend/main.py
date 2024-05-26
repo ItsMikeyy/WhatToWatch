@@ -16,8 +16,8 @@ def home():
 def submit():
     data = request.get_json()
     genres = data.get("options", [])
-    print(genres)
-    data = s.get_movies(genres)
+    title_type = data.get("type", "") 
+    data = s.get_show(genres, title_type)
     return jsonify({'message': 'Success', 'data': data}), 200
 
 if __name__ == "__main__":

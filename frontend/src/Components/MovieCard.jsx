@@ -6,10 +6,11 @@ const MovieCard = (props) => {
 
 
     return (
-        <div className="container movie-card">
-            <h1 className="title">{props.name}</h1>
+        <div className="movie-card">
+            <h1 className="title primary_text">{props.name}</h1>
             <img src={props.img} />
-            <h2 className="description">Description</h2>
+            <h2 className="description primary_text">{props.description}</h2>
+            <a className="link-text" href={props.link} target="_blank">View on IMDb</a>
         </div>
     )
 }
