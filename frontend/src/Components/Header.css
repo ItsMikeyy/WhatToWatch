@@ -13,7 +13,7 @@ header{
     border-radius: 10px;
 }
 
-.header_title {
+.header-title {
     display: inline-block;
     color: black;
     font-weight: bolder;

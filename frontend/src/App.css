@@ -3,14 +3,32 @@ form {
     display: inline-flex;
     justify-content: center;
     flex-direction: column;
+    width: 100%;
     
 }
+
+.primary_select {
+width: 20rem;
+height: 2rem;
+
+}
+
+
 .container {
     text-align: center;
     margin: 1rem;
 }
-.primary_text {
+.primary-text {
     color: white;
+}
+
+.primary-button {
+    padding: 1rem 3rem;
+    font-size: 1.5rem;
+    background-color: #F5C518;
+    font-weight: bold;
+    border: 1px black;
+    border-radius: 20px;
 }
 
 @media only screen and (max-width: 800px) {

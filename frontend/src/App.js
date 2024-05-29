@@ -6,6 +6,7 @@ function App() {
 
   const [requestData, setRequestData] = useState({})
   const [titleType, setTitleType] = useState("feature")
+  const [loading, setLoading] = useState(false);
   const [genre, setGenre] = useState({
     d1: "",
     d2: "",
@@ -22,7 +23,7 @@ function App() {
     e.preventDefault();
 
     const selectedValues = Object.values(genre);
-
+    setLoading(true);
     try {
       const response = await fetch("http://localhost:5000/submit", {
         method: "POST",
@@ -35,7 +36,7 @@ function App() {
       if (response.ok) {
         const data = await response.json()
         setRequestData(data.data)
-        console.log(data)
+        setLoading(false);      
       } else {
         console.log("Error")
       }
@@ -62,7 +63,7 @@ function App() {
       <div className="container">
         <form onSubmit={handleSubmit}>
           <div className="container">
-            <h1 className="primary_text">I want to watch a:</h1>
+            <h1 className="primary-text">I want to watch a:</h1>
             <select onChange={handleTitleType} className="primary_select">
               <option value="feature">Movie</option>
               <option value="tv_series">TV Show</option>
@@ -71,27 +72,27 @@ function App() {
           </div>
           <br />
           <div className="container">
-            <h1 className="primary_text">With genres consisting of:</h1>
-            <select name="d1" onChange={handleChange} value={genre.d1}>
-              <option value="">Select an option</option>
+            <h1 className="primary-text">With genres consisting of:</h1>
+            <select className="primary_select" name="d1" onChange={handleChange} value={genre.d1}>
+              <option value="">None</option>
               {getFilteredOptions('d1').map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
               ))}
             </select>
-            <h1 className="primary_text">And</h1>
-            <select name="d2" onChange={handleChange} value={genre.d2}>
-            <option value="">Select an option</option>
+            <h1 className="primary-text">And</h1>
+            <select className="primary_select" name="d2" onChange={handleChange} value={genre.d2}>
+            <option value="">None</option>
               {getFilteredOptions('d2').map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
               ))}
             </select>
-            <h1 className="primary_text">And</h1>
-            <select name="d3" onChange={handleChange} value={genre.d3}>
-            <option value="">Select an option</option>
+            <h1 className="primary-text">And</h1>
+            <select className="primary_select" name="d3" onChange={handleChange} value={genre.d3}>
+            <option value="">None</option>
               {getFilteredOptions('d3').map((option) => (
                 <option key={option} value={option}>
                   {option}
@@ -101,11 +102,12 @@ function App() {
           </div>
           <br />
           <div className="container">
-            <button type="submit">GO</button>
+            <button type="submit" className="primary-button">GO</button>
           </div>
           <br />
-          {Object.keys(requestData).length != 0 && <MovieCard name={requestData.title} img={requestData.img} description={requestData.description} link={requestData.link}/>}
+          {Object.keys(requestData).length !== 0 && <MovieCard name={requestData.title} img={requestData.img} description={requestData.description} link={requestData.link}/>}
         </form>
+        {loading && <h2 className='primary-text'>Loading...</h2>}
       </div>
     </>
   );
