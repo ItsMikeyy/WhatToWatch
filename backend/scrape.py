@@ -4,12 +4,13 @@ import bs4
 
 class Scrape:
     def get_show(self, genres, type):
+        print(genres)
         genre_string = ""
-        if len(genre_string) > 1:
-            genre_string = ",".join(genres)
-        else:
-            for w in genres:
-                genre_string += w
+        for genre in genres:
+            if genre:
+                genre_string += genre + ","
+        genre_string = genre_string[:-1]
+        
         print(genre_string)
         url = f'https://www.imdb.com/search/title/?genres={genre_string}&explore=genres&title_type={type}'
         headers = {
@@ -25,7 +26,9 @@ class Scrape:
     
     def get_data(self, soup):
         divs = soup.findAll(class_="ipc-metadata-list-summary-item")
-        divs.pop()            #Extra element
+        print(divs)
+        if not divs:
+            return None
         selected_div = random.choice(divs)
 
         title = self.get_title(selected_div)
@@ -39,22 +42,35 @@ class Scrape:
 
 
     def get_title(self, element):
-        title = element.find(class_="ipc-title__text").get_text()
-        title = title.split(" ")
-        title = " ".join(title[1::]) 
+        try:
+            title = element.find(class_="ipc-title__text").get_text()
+            title = title.split(" ")
+            title = " ".join(title[1::]) 
+        except:
+            title = ""
         return title
 
     def get_img(self, element):
-        img = element.find(class_="ipc-image")
-        return img["src"]
+        try:
+            img = element.find(class_="ipc-image")
+            img = img["src"]
+        except:
+            img = ""
+        return img
     
     def get_description(self, element):
-        desc = element.find(class_="ipc-html-content-inner-div").get_text()
+        try:
+            desc = element.find(class_="ipc-html-content-inner-div").get_text()
+        except:
+            desc = ""
+        
         return desc
-    
     def get_link(self, element):
-        href = element.find(class_="ipc-lockup-overlay")["href"]
-        link = "https://www.imdb.com/" + href
+        try:
+            href = element.find(class_="ipc-lockup-overlay")["href"]
+            link = "https://www.imdb.com/" + href
+        except:
+            link = ""
         return link
 
 

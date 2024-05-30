@@ -18,6 +18,8 @@ def submit():
     genres = data.get("options", [])
     title_type = data.get("type", "") 
     data = s.get_show(genres, title_type)
+    if not data:
+        return jsonify({'message': 'Failed to find a show', 'data': data}), 500
     return jsonify({'message': 'Success', 'data': data}), 200
 
 if __name__ == "__main__":

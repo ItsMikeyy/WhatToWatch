@@ -7,6 +7,7 @@ function App() {
   const [requestData, setRequestData] = useState({})
   const [titleType, setTitleType] = useState("feature")
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [genre, setGenre] = useState({
     d1: "",
     d2: "",
@@ -24,6 +25,8 @@ function App() {
 
     const selectedValues = Object.values(genre);
     setLoading(true);
+    setRequestData({});
+    setError(false); 
     try {
       const response = await fetch("http://localhost:5000/submit", {
         method: "POST",
@@ -36,9 +39,10 @@ function App() {
       if (response.ok) {
         const data = await response.json()
         setRequestData(data.data)
-        setLoading(false);      
+        setLoading(false);     
       } else {
-        console.log("Error")
+        setError(true);
+        setLoading(false);
       }
     }
     catch(error) {
@@ -108,6 +112,14 @@ function App() {
           {Object.keys(requestData).length !== 0 && <MovieCard name={requestData.title} img={requestData.img} description={requestData.description} link={requestData.link}/>}
         </form>
         {loading && <h2 className='primary-text'>Loading...</h2>}
+        {error && 
+          <>        
+            <h2 className='primary-text'>Failed to find a title.</h2>
+            <p className='primary-text'>This could be because of the genres selected or a server issue.</p>
+            <p className='primary-text'>Please try again.</p>
+
+          </>}
+
       </div>
     </>
   );
